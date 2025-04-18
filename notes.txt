@@ -1,0 +1,23 @@
+ordre d'exécution :
+main.ml appelle lexer.mll
+- lexer.mll appelle parser.mly
+-- parser appelle main.ml
+
+Etape 1
+# - titres
+## - sous-titres
+paragraphes
+\item - liste
+**mot** - gras
+*mot* - italique
+[mot](lien) - lien hypertexte 
+
+contraintes :
+1 saut de ligne = ignoré
+2+ sauts de ligne = 1 saut de ligne
+
+problèmes rencontrées étape 1 :
+- Paragraphe sur plusieurs lignes :
+    Si une ligne ne fini pas avec un espace, alors les mots du paragraphe reste collés.
+    J'ai dû retirer le token ESPACE mais du coup, certain formattage sont cassé
+    (Saut de ligne ignoré mais donc, comment faire pour détecter les sauts de lignes considérés comme espace ?)
