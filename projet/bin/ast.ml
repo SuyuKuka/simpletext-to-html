@@ -1,40 +1,53 @@
+(* Arbre *)
 type mot = string
-type texte = element_de_texte list
 
 and element_de_texte =
+  | Espace
   | Mot of mot
   | Italique of mot list
   | Gras of mot list
   | Lien of mot list * mot
 
-type element =
+and texte = element_de_texte list
+      
+and item = texte
+and suite_items = item list
+
+and element =
   | Titre1 of texte
   | Titre2 of texte
   | Paragraphe of texte
-  | Liste of texte list
+  | SuiteItems of suite_items
 
-type document = element list
+and corps = element list
+    
+and document = corps
 
-let rec string_of_document doc =
-  String.concat "\n\n" (List.map string_of_element doc)
-
-and string_of_element = function
-  | Titre1 t -> "# " ^ string_of_texte t
-  | Titre2 t -> "## " ^ string_of_texte t
-  | Paragraphe t -> string_of_texte t
-  | Liste items ->
-      if items = [] then
-        ""  (* Liste vide, on ne l'affiche pas du tout *)
-      else
-        String.concat "\n" (List.map (fun i -> "\\item " ^ string_of_texte i) items)
-
-and string_of_texte t =
-  match t with
-  | [] -> ""  (* Si le texte est vide, on retourne une chaîne vide *)
-  | _ -> String.concat " " (List.map string_of_element_de_texte t)
-
-and string_of_element_de_texte = function
+(* Affichage *)
+let rec liste_mots_string = function
+  | [] -> ""
+  | [last] -> last
+  | hd :: tl -> hd ^ liste_mots_string tl
+and element_de_texte_string = function
+  | Espace -> " "
   | Mot m -> m
-  | Italique l -> "*" ^ String.concat " " l ^ "*"
-  | Gras l -> "**" ^ String.concat " " l ^ "**"
-  | Lien (txt, url) -> "[" ^ String.concat " " txt ^ "](" ^ url ^ ")"
+  | Italique ml -> "<em>" ^ liste_mots_string ml ^ "</em>"
+  | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
+  | Lien (ml, m) -> "<a href=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</a>"
+and texte_string = function
+  | [] -> ""
+  | hd :: tl -> element_de_texte_string hd ^ texte_string tl
+and item_string v = "  <li>" ^ texte_string v ^ "</li>\n"
+and suite_items_string = function
+  | [] -> ""
+  | hd :: tl -> item_string hd ^ suite_items_string tl
+and element_string = function
+  | Titre1 t -> "<h1>" ^ texte_string t ^ "</h1>"
+  | Titre2 t -> "<h2>" ^ texte_string t ^ "</h2>"
+  | Paragraphe t -> "<p>" ^ texte_string t ^ "</p>"
+  | SuiteItems s -> "<ul>\n" ^ suite_items_string s ^ "</ul>"
+and corps_string = function
+  | [] -> ""
+  | [last] -> element_string last
+  | hd :: tl -> element_string hd ^ "\n" ^ corps_string tl
+and document_string v = corps_string v
