@@ -23,6 +23,7 @@ element:
   | TITRE2 t=texte { Titre2 t }
   | t=texte { Paragraphe t }
   | si=suite_items  { SuiteItems si }
+  | ITEM LBRACE e=element RBRACE { ItemImbrique e }
 
 suite_items:
   | i=item il=suite_items { i :: il }

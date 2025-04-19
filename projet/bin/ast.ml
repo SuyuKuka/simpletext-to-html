@@ -19,6 +19,7 @@ and element =
   | Titre2 of texte
   | Paragraphe of texte
   | SuiteItems of suite_items
+  | ItemImbrique of element
 
 and corps = element list
     
@@ -47,6 +48,7 @@ and element_string = function
   | Titre2 t -> "<h2>" ^ texte_string t ^ "</h2>"
   | Paragraphe t -> "<p>" ^ texte_string t ^ "</p>"
   | SuiteItems s -> "<ul>\n" ^ suite_items_string s ^ "</ul>"
+  | ItemImbrique e -> "<ul>\n" ^ element_string e ^ "</ul>"
 and corps_string = function
   | [] -> ""
   | [last] -> element_string last

@@ -9,22 +9,22 @@ let c_digit = ['0'-'9' 'A'-'F' 'a'-'f']
 let couleur = c_digit c_digit c_digit c_digit c_digit c_digit
 
 rule main = parse
-  | espace+                 { Printf.printf "1"; MOT (" ") }
-  | newline                 { Printf.printf "2"; NEWLINE }
-  | '\n'                    { Printf.printf "3"; main lexbuf }
-  | "#" espace*             { Printf.printf "4"; TITRE1 }
-  | "##" espace*            { Printf.printf "5"; TITRE2 }
-  | "\\item" espace+        { Printf.printf "6"; ITEM }
-  | "\\color"               { Printf.printf "f"; COULEUR }
-  | couleur                 { Printf.printf "g"; MOT (Lexing.lexeme lexbuf) }
-  | "**"                    { Printf.printf "7"; GRAS }
-  | "*"                     { Printf.printf "8"; ITALIQUE }
-  | "["                     { Printf.printf "9"; LBRACKET }
-  | "]"                     { Printf.printf "a"; RBRACKET }
-  | "{"                     { Printf.printf "h"; LBRACE }
-  | "}"                     { Printf.printf "g"; RBRACE }
-  | "("                     { Printf.printf "b"; LPAREN }
-  | ")"                     { Printf.printf "c"; RPAREN }
-  | mot                     { Printf.printf "d"; MOT (Lexing.lexeme lexbuf) }
-  | eof                     { Printf.printf "e"; EOF }
+  | espace+                 { Printf.printf "a"; MOT (" ") }
+  | newline                 { Printf.printf "b"; NEWLINE }
+  | '\n'                    { Printf.printf "c"; main lexbuf }
+  | "#" espace*             { Printf.printf "d"; TITRE1 }
+  | "##" espace*            { Printf.printf "e"; TITRE2 }
+  | "\\item" espace+        { Printf.printf "f"; ITEM }
+  | "\\color"               { Printf.printf "g"; COULEUR }
+  | couleur                 { Printf.printf "h"; MOT (Lexing.lexeme lexbuf) }
+  | "**"                    { Printf.printf "i"; GRAS }
+  | "*"                     { Printf.printf "j"; ITALIQUE }
+  | "["                     { Printf.printf "k"; LBRACKET }
+  | "]"                     { Printf.printf "l"; RBRACKET }
+  | "{"                     { Printf.printf "m"; LBRACE }
+  | "}"                     { Printf.printf "n"; RBRACE }
+  | "("                     { Printf.printf "o"; LPAREN }
+  | ")"                     { Printf.printf "p"; RPAREN }
+  | mot                     { Printf.printf "q"; MOT (Lexing.lexeme lexbuf) }
+  | eof                     { Printf.printf "r"; EOF }
   | _                       { failwith ("unexpected character: '" ^ Lexing.lexeme lexbuf ^ "'") } 
