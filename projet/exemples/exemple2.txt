@@ -5,7 +5,7 @@ dans un fichier SimpleText,
 les retours à la ligne 
 sont ignorés !
 
-Pour faire un nouveau paragraphe, il faut faire un *saut de* de ligne.
+Pour faire un nouveau paragraphe, il faut faire un *saut de* de ligne. 
 Pour mettre en forme le texte, on peut utiliser :
 
 \item du *texte en italique*,

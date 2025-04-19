@@ -15,7 +15,7 @@ rule main = parse
   | "#" espace*             { Printf.printf "4"; TITRE1 }
   | "##" espace*            { Printf.printf "5"; TITRE2 }
   | "\\item" espace+        { Printf.printf "6"; ITEM }
-  | "\\color" espace               { Printf.printf "f"; COULEUR }
+  | "\\color"               { Printf.printf "f"; COULEUR }
   | couleur                 { Printf.printf "g"; MOT (Lexing.lexeme lexbuf) }
   | "**"                    { Printf.printf "7"; GRAS }
   | "*"                     { Printf.printf "8"; ITALIQUE }
