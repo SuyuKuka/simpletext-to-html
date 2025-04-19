@@ -9,13 +9,13 @@ let c_digit = ['0'-'9' 'A'-'F' 'a'-'f']
 let couleur = c_digit c_digit c_digit c_digit c_digit c_digit
 
 rule main = parse
-  | espace+                 { Printf.printf "1"; main lexbuf }
+  | espace+                 { Printf.printf "1"; MOT (" ") }
   | newline                 { Printf.printf "2"; NEWLINE }
   | '\n'                    { Printf.printf "3"; main lexbuf }
   | "#" espace*             { Printf.printf "4"; TITRE1 }
   | "##" espace*            { Printf.printf "5"; TITRE2 }
   | "\\item" espace+        { Printf.printf "6"; ITEM }
-  | "\\color"                { Printf.printf "f"; COULEUR }
+  | "\\color" espace               { Printf.printf "f"; COULEUR }
   | couleur                 { Printf.printf "g"; MOT (Lexing.lexeme lexbuf) }
   | "**"                    { Printf.printf "7"; GRAS }
   | "*"                     { Printf.printf "8"; ITALIQUE }
