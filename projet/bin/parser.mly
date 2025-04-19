@@ -2,7 +2,10 @@
 open Ast
 %}
 
-%token NEWLINE TITRE1 TITRE2 ITEM GRAS ITALIQUE LBRACKET RBRACKET LPAREN RPAREN EOF
+%token NEWLINE EOF 
+%token TITRE1 TITRE2 GRAS ITALIQUE
+%token ITEM COULEUR
+%token LBRACE RBRACE LBRACKET RBRACKET LPAREN RPAREN
 %token<string> MOT
 
 %start <Ast.document> document
@@ -36,7 +39,6 @@ element_de_texte:
   | GRAS l=list(mot) GRAS { Gras l }
   | ITALIQUE l=list(mot) ITALIQUE { Italique l }
   | LBRACKET l=list(mot) RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
+  | COULEUR LBRACE m=mot RBRACE LBRACE l=list(mot) RBRACE { Couleur (m, l) }
 
-mot:
-  | m=MOT { " " ^ m  }
-  // | ESPACE { " " }
+mot: m=MOT { " " ^ m }

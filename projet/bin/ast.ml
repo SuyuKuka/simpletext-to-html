@@ -2,15 +2,16 @@
 type mot = string
 
 and element_de_texte =
-  | Espace
   | Mot of mot
   | Italique of mot list
   | Gras of mot list
   | Lien of mot list * mot
+  | Couleur of mot * mot list
 
 and texte = element_de_texte list
       
 and item = texte
+
 and suite_items = item list
 
 and element =
@@ -29,18 +30,18 @@ let rec liste_mots_string = function
   | [last] -> last
   | hd :: tl -> hd ^ liste_mots_string tl
 and element_de_texte_string = function
-  | Espace -> " "
   | Mot m -> m
   | Italique ml -> "<em>" ^ liste_mots_string ml ^ "</em>"
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
   | Lien (ml, m) -> "<a href=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</a>"
+  | Couleur (m, ml) -> "<span style=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</span>"
 and texte_string = function
   | [] -> ""
   | hd :: tl -> element_de_texte_string hd ^ texte_string tl
-and item_string v = "  <li>" ^ texte_string v ^ "</li>\n"
+and item_string t = "<li>" ^ texte_string t ^ "</li>\n"
 and suite_items_string = function
   | [] -> ""
-  | hd :: tl -> item_string hd ^ suite_items_string tl
+  | hd :: tl -> "  " ^ item_string hd ^ suite_items_string tl
 and element_string = function
   | Titre1 t -> "<h1>" ^ texte_string t ^ "</h1>"
   | Titre2 t -> "<h2>" ^ texte_string t ^ "</h2>"
