@@ -3,7 +3,7 @@ main.ml appelle lexer.mll
 - lexer.mll appelle parser.mly
 -- parser appelle main.ml
 
-Etape 1
+Etape 1 (commit kaboom2)
 # - titres
 ## - sous-titres
 paragraphes
@@ -14,10 +14,18 @@ paragraphes
 
 contraintes :
 1 saut de ligne = ignoré
-2+ sauts de ligne = 1 saut de ligne
+2 sauts de ligne = 1 saut de ligne
 
 problèmes rencontrées étape 1 :
 - Paragraphe sur plusieurs lignes :
     Si une ligne ne fini pas avec un espace, alors les mots du paragraphe reste collés.
     J'ai dû retirer le token ESPACE mais du coup, certain formattage sont cassé
     (Saut de ligne ignoré mais donc, comment faire pour détecter les sauts de lignes considérés comme espace ?)
+
+Etape 2
+\color{code_couleur}{mot} - mot en couleur
+\item { } - liste imbriquée
+
+contraintes :
+espace et tabulation entre 2+ sauts de ligne = ignoré (fait dans commit kaboom2)
+2+ sauts de ligne = 1 saut de ligne (fait dans commit kaboom2)
