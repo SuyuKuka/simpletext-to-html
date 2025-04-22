@@ -1,15 +1,12 @@
-# Exemple de fichier SimpleText
-
-N’oubliez pas : 
-dans un fichier SimpleText, 
-les retours à la ligne 
-sont ignorés !
-
-Pour faire un nouveau paragraphe, il faut faire un *saut de* de ligne.
-Pour mettre en forme le texte, on peut utiliser :
-
-\item du *texte en italique*,
-\item du **texte en gras**,
-\item et des [liens hypertexte](https://fr.wikipedia.org/wiki/Hyperlien).
-
 Du texte \color{FF0000}{en rouge} et \color{0000FF}{en bleu}.
+
+\item Un item simple.
+\item {
+    Et un item complexe.
+
+    Il contient :
+
+    \item des paragraphes,
+    \item et des sous-items.
+}
+\item Un autre item simple.

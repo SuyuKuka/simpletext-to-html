@@ -29,16 +29,25 @@ suite_items:
   | i=item { [i] }
 
 item:
-  ITEM t=texte { t }
+  | ITEM t=texte { Item t }
+  | ITEM LBRACE iml=separated_nonempty_list(NEWLINE, item_imbrique) RBRACE { ItemImbrique iml }
+
+item_imbrique:
+  | t=texte { ParagrapheImbrique t }
+  | si=suite_items { SuiteItemsImbrique si }
 
 texte:
-  elt=list(element_de_texte) { elt }
+  | elt=list(element_de_texte) { elt }
 
 element_de_texte:
   | m=mot { Mot m }
-  | GRAS l=list(mot) GRAS { Gras l }
-  | ITALIQUE l=list(mot) ITALIQUE { Italique l }
-  | LBRACKET l=list(mot) RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
-  | COULEUR LBRACE m=mot RBRACE LBRACE l=list(mot) RBRACE { Couleur (m, l) }
+  | GRAS l=liste_mots GRAS { Gras l }
+  | ITALIQUE l=liste_mots ITALIQUE { Italique l }
+  | LBRACKET l=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
+  | COULEUR LBRACE m=mot RBRACE LBRACE l=liste_mots RBRACE { Couleur (m, l) }
 
-mot:m=MOT { m }
+liste_mots:
+  l=list(mot) { l }
+
+mot:
+  m=MOT { m }
