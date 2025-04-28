@@ -2,16 +2,16 @@
   open Parser
 }
 
-let mot = [^'*' '#' '\\' '{' '}' '[' ']' '(' ')' ' ' '\n' '\t']+
+let mot = [^'*' '#' '\\' '{' '}' '[' ']' '(' ')' ' ' '\r' '\n' '\t']+
 let espace = [' ' '\t']
-let newline = espace* '\n' espace*
+let newline = espace* '\r'? '\n' espace*
 let c_digit = ['0'-'9' 'A'-'F' 'a'-'f']
 let couleur = c_digit c_digit c_digit c_digit c_digit c_digit
 
 rule main = parse
   | espace+                 { Printf.printf "skip espace\n"; main lexbuf }
   | newline newline+        { Printf.printf "newline\n"; NEWLINE }
-  | '\n'                    { Printf.printf "skip \\n\n"; main lexbuf }
+  | '\r'? '\n'              { Printf.printf "skip \\n\n"; main lexbuf }
   | "#"                     { Printf.printf "titre1\n"; TITRE1 }
   | "##"                    { Printf.printf "titre2\n"; TITRE2 }
   | "\\item"                { Printf.printf "\\item\n"; ITEM }
