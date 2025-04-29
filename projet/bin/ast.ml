@@ -33,7 +33,7 @@ and liste_mots = mot list
 and mot = string
 
 (* Affichage *)
-let rec document_string v = corps_string v
+let rec document_string v = "<\\begindocument>\n" ^ corps_string v ^ "\n<\\enddocument>"
 and corps_string = function
   | [] -> ""
   | [last] -> element_string last

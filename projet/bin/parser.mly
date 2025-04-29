@@ -1,5 +1,15 @@
 %{
 open Ast
+open Hashtbl
+
+let macros = create 16
+
+let define_macro nom valeur =
+  replace macros nom valeur
+
+let get_macro nom =
+  try find macros nom
+  with Not_found -> nom
 %}
 
 %token NEWLINE EOF
@@ -7,13 +17,29 @@ open Ast
 %token ITEM COULEUR
 %token LBRACE RBRACE LBRACKET RBRACKET LPAREN RPAREN
 %token<string> MOT
+%token DEFINE BEGINDOCUMENT ENDDOCUMENT
+%token<string> IDENTIFIANT
 
 %start <Ast.document> document
 
 %%
 
 document:
-  c=corps EOF { c }
+  | header BEGINDOCUMENT c=corps ENDDOCUMENT EOF { c } 
+  | header c=corps EOF { c }
+
+header:
+  | liste_definitions { () }
+
+liste_definitions:
+  | definition liste_definitions { () }
+  | { () }
+
+definition:
+  | DEFINE LBRACE id=IDENTIFIANT RBRACE LBRACE v=valeur RBRACE { define_macro id v }
+
+contenu:
+  | mots=list(MOT) { String.concat " " mots }
 
 corps:
   el=separated_nonempty_list(NEWLINE, element) { el }
@@ -45,6 +71,7 @@ element_de_texte:
   | ITALIQUE l=liste_mots ITALIQUE { Italique l }
   | LBRACKET l=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
   | COULEUR LBRACE m=mot RBRACE LBRACE l=liste_mots RBRACE { Couleur (m, l) }
+  | id=IDENTIFIANT { Mot (get_macro id) }
 
 liste_mots:
   l=list(mot) { l }

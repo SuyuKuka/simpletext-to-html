@@ -9,14 +9,14 @@ let c_digit = ['0'-'9' 'A'-'F' 'a'-'f']
 let couleur = c_digit c_digit c_digit c_digit c_digit c_digit
 
 rule main = parse
-  | espace+                 { Printf.printf "skip espace\n"; main lexbuf }
-  | newline newline+        { Printf.printf "newline\n"; NEWLINE }
-  | '\r'? '\n'              { Printf.printf "skip \\n\n"; main lexbuf }
-  | "#"                     { Printf.printf "titre1\n"; TITRE1 }
-  | "##"                    { Printf.printf "titre2\n"; TITRE2 }
-  | "\\item"                { Printf.printf "\\item\n"; ITEM }
-  | "\\color"               { Printf.printf "\\color\n"; COULEUR }
-  | couleur                 { Printf.printf "code couleur\n"; MOT (Lexing.lexeme lexbuf) }
+  | espace+                 { Printf.printf "SKIP ESPACE\n"; main lexbuf }
+  | newline newline+        { Printf.printf "NEWLINE\n"; NEWLINE }
+  | '\r'? '\n'              { Printf.printf "SKIP \\n\n"; main lexbuf }
+  | "#"                     { Printf.printf "TITRE1\n"; TITRE1 }
+  | "##"                    { Printf.printf "TITRE2\n"; TITRE2 }
+  | "\\item"                { Printf.printf "ITEM\n"; ITEM }
+  | "\\color"               { Printf.printf "COLEUR\n"; COULEUR }
+  | couleur                 { Printf.printf "CODE COULEUR\n"; MOT (Lexing.lexeme lexbuf) }
   | "**"                    { Printf.printf "GRAS\n"; GRAS }
   | "*"                     { Printf.printf "ITALIQUE\n"; ITALIQUE }
   | "["                     { Printf.printf "CROCHET G\n"; LBRACKET }
@@ -26,7 +26,13 @@ rule main = parse
   | "("                     { Printf.printf "PAREN G\n"; LPAREN }
   | ")"                     { Printf.printf "PAREN D\n"; RPAREN }
   | mot                     { let s = Lexing.lexeme lexbuf in
-                              Printf.printf "mot: '%s'\n" s;
+                              Printf.printf "MOT: '%s'\n" s;
                               MOT s }
-  | eof                     { Printf.printf "eof\n"; EOF }
-  | _                       { failwith ("unexpected character: '" ^ Lexing.lexeme lexbuf ^ "'") } 
+  | "\\define"              { Printf.printf "DEFINE\n"; DEFINE }
+  | "\\begindocument"       { Printf.printf "BEGIN DOCUMENT\n"; BEGINDOCUMENT }
+  | "\\enddocument"         { Printf.printf "END DOCUMENT\n"; ENDDOCUMENT }
+  | "\\" mot                { let s = Lexing.lexeme lexbuf in
+                              Printf.printf "IDENTIFIANT: '%s'\n" s;
+                              IDENTIFIANT s }
+  | eof                     { Printf.printf "EOF\n"; EOF }
+  | _                       { failwith ("unexpected character: '" ^ Lexing.lexeme lexbuf ^ "'") }
