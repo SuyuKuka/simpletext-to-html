@@ -1,18 +1,5 @@
 %{
 open Ast
-open Hashtbl
-
-let macros = create 16
-
-let define_macro nom valeur =
-  if mem macros nom then
-    raise (MacroAlreadyDefine nom)
-  else
-    add macros nom valeur
-
-let get_macro nom =
-  try find macros nom
-  with Not_found -> raise (NotExistMacro nom)
 %}
 
 %token NEWLINE EOF
@@ -28,21 +15,20 @@ let get_macro nom =
 %%
 
 document:
-  | option(liste_macros) BEGINDOCUMENT c=corps ENDDOCUMENT EOF { c } 
+  | c=corps EOF { ([], c) }
+  | li=liste_macros BEGINDOCUMENT c=corps ENDDOCUMENT EOF { (li, c) } 
 
 // Macros
 
 liste_macros:
-  | li=list(macros) { li }
+  li=list(macros) { li }
 
 macros:
-  | DEFINE LBRACE i=identifiant RBRACE LBRACE t=texte RBRACE { (i, t) }
+  DEFINE LBRACE i=identifiant RBRACE LBRACE t=texte RBRACE { (i, t) }
 
-identifiant:
-  | n=nom { n }
+identifiant: n=nom { n }
 
-nom:
-  n=NOM { n }
+nom: n=NOM { n }
 
 // Corps 
 
@@ -76,6 +62,7 @@ element_de_texte:
   | ITALIQUE l=liste_mots ITALIQUE { Italique l }
   | LBRACKET l=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
   | COULEUR LBRACE elt=element_de_texte RBRACE LBRACE l=liste_mots RBRACE { Couleur (elt, l) }
+  | i=identifiant { Macro i }
 
 liste_mots:
   l=list(mot) { l }
