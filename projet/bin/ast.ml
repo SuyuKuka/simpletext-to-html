@@ -1,9 +1,18 @@
-exception MacroAlreadyDefine of string
-exception NotExistMacro of string
+open Hashtbl
 
 (* Arbre *)
-type document = corps
+type document = liste_macros * corps
 
+(* Macros *)
+and liste_macros = macros list
+
+and identifiant = nom
+
+and macros = identifiant * texte
+
+and nom = string
+
+(* Corps *)
 and corps = element list
 
 and element =
@@ -30,13 +39,25 @@ and element_de_texte =
   | Gras of liste_mots
   | Lien of liste_mots * mot
   | Couleur of element_de_texte * liste_mots
+  | Macro of identifiant
 
 and liste_mots = mot list
 
 and mot = string
 
+let macros_map : (identifiant, texte) t = create 16
+
 (* Affichage *)
-let rec document_string v = corps_string v
+let rec document_string lm v = liste_macros_save lm; corps_string v
+(* Macros *)
+and liste_macros_save = function
+  | [] -> ()
+  | [(i, t)] -> macros_save i t
+  | (i, t) :: tl -> macros_save i t; liste_macros_save tl
+and macros_save i t = add macros_map (identifiant_string i) t
+and identifiant_string n = nom_string n
+and nom_string n = n
+(* Corps *)
 and corps_string = function
   | [] -> ""
   | [last] -> element_string last
@@ -80,6 +101,7 @@ and element_de_texte_string = function
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
   | Lien (ml, m) -> "<a href=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</a>"
   | Couleur (elt, ml) -> "<span style=\"color :#" ^ element_de_texte_string elt ^ "\">" ^ liste_mots_string ml ^ "</span>"
+  | Macro i -> texte_string (find macros_map i)
 and liste_mots_string = function
   | [] -> ""
   | [last] -> last
