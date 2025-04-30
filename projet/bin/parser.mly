@@ -21,28 +21,30 @@ let get_macro nom =
 %token LBRACE RBRACE LBRACKET RBRACKET LPAREN RPAREN
 %token<string> MOT
 %token DEFINE BEGINDOCUMENT ENDDOCUMENT
-%token<string> IDENTIFIANT
+%token<string> NOM
 
 %start <Ast.document> document
 
 %%
 
 document:
-  | header BEGINDOCUMENT c=corps ENDDOCUMENT EOF { c } 
-  | header c=corps EOF { c }
+  | option(liste_macros) BEGINDOCUMENT c=corps ENDDOCUMENT EOF { c } 
 
-header:
-  | liste_definitions { () }
+// Macros
 
-liste_definitions:
-  | definition liste_definitions { () }
-  | { () }
+liste_macros:
+  | li=list(macros) { li }
 
-definition:
-  | DEFINE LBRACE id=IDENTIFIANT RBRACE LBRACE c=contenu RBRACE { define_macro id c }
+macros:
+  | DEFINE LBRACE i=identifiant RBRACE LBRACE t=texte RBRACE { (i, t) }
 
-contenu:
-  | mots=list(MOT) { String.concat " " mots }
+identifiant:
+  | n=nom { n }
+
+nom:
+  n=NOM { n }
+
+// Corps 
 
 corps:
   el=separated_nonempty_list(NEWLINE, element) { el }
@@ -74,7 +76,6 @@ element_de_texte:
   | ITALIQUE l=liste_mots ITALIQUE { Italique l }
   | LBRACKET l=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
   | COULEUR LBRACE elt=element_de_texte RBRACE LBRACE l=liste_mots RBRACE { Couleur (elt, l) }
-  | id=IDENTIFIANT { Mot (get_macro id) }
 
 liste_mots:
   l=list(mot) { l }
