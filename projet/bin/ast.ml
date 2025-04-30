@@ -26,7 +26,7 @@ and element_de_texte =
   | Italique of liste_mots
   | Gras of liste_mots
   | Lien of liste_mots * mot
-  | Couleur of mot * liste_mots
+  | Couleur of element_de_texte * liste_mots
 
 and liste_mots = mot list
 
@@ -76,7 +76,7 @@ and element_de_texte_string = function
   | Italique ml -> "<em>" ^ liste_mots_string ml ^ "</em>"
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
   | Lien (ml, m) -> "<a href=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</a>"
-  | Couleur (m, ml) -> "<span style=\"color :#" ^ mot_string m ^ "\">" ^ liste_mots_string ml ^ "</span>"
+  | Couleur (elt, ml) -> "<span style=\"color :#" ^ element_de_texte_string elt ^ "\">" ^ liste_mots_string ml ^ "</span>"
 and liste_mots_string = function
   | [] -> ""
   | [last] -> last

@@ -70,7 +70,7 @@ element_de_texte:
   | GRAS l=liste_mots GRAS { Gras l }
   | ITALIQUE l=liste_mots ITALIQUE { Italique l }
   | LBRACKET l=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
-  | COULEUR LBRACE m=mot RBRACE LBRACE l=liste_mots RBRACE { Couleur (m, l) }
+  | COULEUR LBRACE elt=element_de_texte RBRACE LBRACE l=liste_mots RBRACE { Couleur (elt, l) }
   | id=IDENTIFIANT { Mot (get_macro id) }
 
 liste_mots:
