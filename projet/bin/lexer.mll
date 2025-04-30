@@ -7,6 +7,7 @@ let espace = [' ' '\t']
 let newline = espace* '\r'? '\n' espace*
 let c_digit = ['0'-'9' 'A'-'F' 'a'-'f']
 let couleur = c_digit c_digit c_digit c_digit c_digit c_digit
+let nom = ['a'-'z' 'A'-'Z']+
 
 rule main = parse
   | espace+                 { Printf.printf "SKIP ESPACE\n"; main lexbuf }
@@ -31,8 +32,8 @@ rule main = parse
   | "\\define"              { Printf.printf "DEFINE\n"; DEFINE }
   | "\\begindocument"       { Printf.printf "BEGIN DOCUMENT\n"; BEGINDOCUMENT }
   | "\\enddocument"         { Printf.printf "END DOCUMENT\n"; ENDDOCUMENT }
-  | "\\" mot                { let s = Lexing.lexeme lexbuf in
-                              Printf.printf "IDENTIFIANT: '%s'\n" s;
-                              IDENTIFIANT s }
+  | "\\" nom                { let s = Lexing.lexeme lexbuf in
+                              Printf.printf "NOM: '%s'\n" s;
+                              NOM s }
   | eof                     { Printf.printf "EOF\n"; EOF }
   | _                       { failwith ("unexpected character: '" ^ Lexing.lexeme lexbuf ^ "'") }
