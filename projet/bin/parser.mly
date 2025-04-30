@@ -36,7 +36,7 @@ liste_definitions:
   | { () }
 
 definition:
-  | DEFINE LBRACE id=IDENTIFIANT RBRACE LBRACE v=valeur RBRACE { define_macro id v }
+  | DEFINE LBRACE id=IDENTIFIANT RBRACE LBRACE c=contenu RBRACE { define_macro id c }
 
 contenu:
   | mots=list(MOT) { String.concat " " mots }
