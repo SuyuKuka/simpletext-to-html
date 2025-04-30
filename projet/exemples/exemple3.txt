@@ -1,4 +1,4 @@
-\define {\gas}{ Grammaires et Analyse Syntaxique}
+\define {\gas}{Grammaires et Analyse Syntaxique}
 \define {\BleuCanard}{048B9A}
 \begindocument
 ## Compte rendu du projet de \gas

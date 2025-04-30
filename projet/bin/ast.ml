@@ -1,3 +1,6 @@
+exception MacroAlreadyDefine of string
+exception NotExistMacro of string
+
 (* Arbre *)
 type document = corps
 
