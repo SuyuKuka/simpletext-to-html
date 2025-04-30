@@ -5,11 +5,14 @@ open Hashtbl
 let macros = create 16
 
 let define_macro nom valeur =
-  replace macros nom valeur
+  if mem macros nom then
+    raise (MacroAlreadyDefine nom)
+  else
+    add macros nom valeur
 
 let get_macro nom =
   try find macros nom
-  with Not_found -> nom
+  with Not_found -> raise (NotExistMacro nom)
 %}
 
 %token NEWLINE EOF
