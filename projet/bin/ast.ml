@@ -4,6 +4,16 @@ exception NotExistMacro of string
 (* Arbre *)
 type document = corps
 
+(* Macros *)
+and liste_macros = macros list
+
+and identifiant = nom
+
+and macros = identifiant * texte
+
+and nom = string
+
+(* Corps *)
 and corps = element list
 
 and element =
@@ -37,6 +47,13 @@ and mot = string
 
 (* Affichage *)
 let rec document_string v = corps_string v
+and liste_macros_string = function
+  | [] -> ""
+  | [(i, t)] -> macros_string i t
+  | (i, t) :: tl -> macros_string i t ^ "A" ^ liste_macros_string tl
+and identifiant_string n = nom_string n
+and macros_string i t = nom_string i ^ "B" ^ texte_string t
+and nom_string s = s
 and corps_string = function
   | [] -> ""
   | [last] -> element_string last
