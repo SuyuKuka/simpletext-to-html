@@ -8,4 +8,4 @@
 (menhir
   (modules parser)
   (infer true)
-  (flags --dump))
+  (flags --dump --trace))
