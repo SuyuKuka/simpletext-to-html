@@ -58,12 +58,15 @@ texte:
 
 element_de_texte:
   | m=mot { Mot m }
+  | ft=forme_texte { ft }
+  | LBRACKET ft=forme_texte RBRACKET LPAREN m=mot RPAREN { Lien (ft, m) }
+  | COULEUR LBRACE m=mot RBRACE LBRACE ft=forme_texte RBRACE { Couleur (m, ft) }
+  | i=identifiant { Macro i }
+
+forme_texte:
   | GRASITALIQUE ml=liste_mots GRASITALIQUE { GrasItalique ml }
   | GRAS ml=liste_mots GRAS { Gras ml }
   | ITALIQUE ml=liste_mots ITALIQUE { Italique ml }
-  | LBRACKET ml=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (ml, m) }
-  | COULEUR LBRACE m=mot RBRACE LBRACE ml=liste_mots RBRACE { Couleur (m, ml) }
-  | i=identifiant { Macro i } 
 
 liste_mots:
   l=list(mot) { l }

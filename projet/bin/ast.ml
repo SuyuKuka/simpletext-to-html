@@ -38,8 +38,8 @@ and element_de_texte =
   | GrasItalique of liste_mots
   | Italique of liste_mots
   | Gras of liste_mots
-  | Lien of liste_mots * mot
-  | Couleur of mot * liste_mots
+  | Lien of element_de_texte * mot
+  | Couleur of mot * element_de_texte
   | Macro of identifiant
 
 and liste_mots = mot list
@@ -101,8 +101,8 @@ and element_de_texte_string = function
   | GrasItalique ml -> "<strong><em>" ^ liste_mots_string ml ^ "</em></strong>"
   | Italique ml -> "<em>" ^ liste_mots_string ml ^ "</em>"
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
-  | Lien (ml, m) -> "<a href=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</a>"
-  | Couleur (m, ml) -> "<span style=\"color :#" ^ m ^ "\">" ^ liste_mots_string ml ^ "</span>"
+  | Lien (et, m) -> "<a href=\"" ^ m ^ "\">" ^ element_de_texte_string et ^ "</a>"
+  | Couleur (m, et) -> "<span style=\"color :#" ^ m ^ "\">" ^ element_de_texte_string et ^ "</span>"
   | Macro i -> texte_string (find macros_map i)
 and liste_mots_string = function
   | [] -> ""
