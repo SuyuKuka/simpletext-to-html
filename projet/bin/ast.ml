@@ -35,10 +35,11 @@ and texte = element_de_texte list
 
 and element_de_texte =
   | Mot of mot
+  | GrasItalique of liste_mots
   | Italique of liste_mots
   | Gras of liste_mots
   | Lien of liste_mots * mot
-  | Couleur of element_de_texte * liste_mots
+  | Couleur of mot * liste_mots
   | Macro of identifiant
 
 and liste_mots = mot list
@@ -96,11 +97,12 @@ and texte_string = function
   | hd1 :: hd2 :: tl ->  
     element_de_texte_string hd1 ^ " " ^ texte_string (hd2 :: tl)
 and element_de_texte_string = function
-  | Mot m -> mot_string m
+  | Mot m -> m
+  | GrasItalique ml -> "<strong><em>" ^ liste_mots_string ml ^ "</em></strong>"
   | Italique ml -> "<em>" ^ liste_mots_string ml ^ "</em>"
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
   | Lien (ml, m) -> "<a href=\"" ^ m ^ "\">" ^ liste_mots_string ml ^ "</a>"
-  | Couleur (elt, ml) -> "<span style=\"color :#" ^ element_de_texte_string elt ^ "\">" ^ liste_mots_string ml ^ "</span>"
+  | Couleur (m, ml) -> "<span style=\"color :#" ^ m ^ "\">" ^ liste_mots_string ml ^ "</span>"
   | Macro i -> texte_string (find macros_map i)
 and liste_mots_string = function
   | [] -> ""
