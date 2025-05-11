@@ -3,7 +3,7 @@ open Ast
 %}
 
 %token NEWLINE EOF
-%token TITRE1 TITRE2 GRAS ITALIQUE
+%token TITRE1 TITRE2 GRAS ITALIQUE GRASITALIQUE
 %token ITEM COULEUR
 %token LBRACE RBRACE LBRACKET RBRACKET LPAREN RPAREN
 %token<string> MOT
@@ -58,11 +58,12 @@ texte:
 
 element_de_texte:
   | m=mot { Mot m }
-  | GRAS l=liste_mots GRAS { Gras l }
-  | ITALIQUE l=liste_mots ITALIQUE { Italique l }
-  | LBRACKET l=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (l, m) }
-  | COULEUR LBRACE elt=element_de_texte RBRACE LBRACE l=liste_mots RBRACE { Couleur (elt, l) }
-  | i=identifiant { Macro i }
+  | GRASITALIQUE ml=liste_mots GRASITALIQUE { GrasItalique ml }
+  | GRAS ml=liste_mots GRAS { Gras ml }
+  | ITALIQUE ml=liste_mots ITALIQUE { Italique ml }
+  | LBRACKET ml=liste_mots RBRACKET LPAREN m=mot RPAREN { Lien (ml, m) }
+  | COULEUR LBRACE m=mot RBRACE LBRACE ml=liste_mots RBRACE { Couleur (m, ml) }
+  | i=identifiant { Macro i } 
 
 liste_mots:
   l=list(mot) { l }

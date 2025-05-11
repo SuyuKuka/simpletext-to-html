@@ -18,6 +18,7 @@ rule main = parse
   | "\\item"                { Printf.printf "ITEM\n"; ITEM }
   | "\\color"               { Printf.printf "COLEUR\n"; COULEUR }
   | couleur                 { Printf.printf "CODE COULEUR\n"; MOT (Lexing.lexeme lexbuf) }
+  | "***"                   { Printf.printf "GRAS ET ITALIQUE\n"; GRASITALIQUE }
   | "**"                    { Printf.printf "GRAS\n"; GRAS }
   | "*"                     { Printf.printf "ITALIQUE\n"; ITALIQUE }
   | "["                     { Printf.printf "CROCHET G\n"; LBRACKET }
