@@ -56,7 +56,12 @@ and liste_macros_save = function
   | [] -> ()
   | [(i, t)] -> macros_save i t
   | (i, t) :: tl -> macros_save i t; liste_macros_save tl
-and macros_save i t = add macros_map (identifiant_string i) t
+and macros_save i t =
+  let id = identifiant_string i in
+  if mem macros_map id then
+    failwith ("la macro \"" ^ id ^ "\" est déjà définie")
+  else
+    add macros_map id t
 and identifiant_string n = nom_string n
 and nom_string n = n
 (* Corps *)
@@ -97,7 +102,12 @@ and element_de_texte_string = function
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
   | Lien (t, c) -> "<a href=\"" ^ element_de_texte_string c ^ "\">" ^ texte_string t ^ "</a>"
   | Couleur (c, t) -> "<span style=\"color :#" ^ element_de_texte_string c ^ "\">" ^ texte_string t ^ "</span>"
-  | Macro i -> texte_string (find macros_map i)
+  | Macro i -> 
+    try 
+      texte_string (find macros_map i)
+    with Not_found ->
+      failwith ("la macro \"" ^ identifiant_string i ^ "\" n'est pas defini")
+    
 and liste_mots_string = function
   | [] -> ""
   | [last] -> last
