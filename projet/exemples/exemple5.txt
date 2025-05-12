@@ -27,6 +27,12 @@ Du texte \color{FF0000}{en rouge} et \color{0000FF}{en bleu}.
 }
 \item Un autre item simple.
 
+Du texte en ** Gras ** ou en * Italique *.
+
+\item Du ** * Gras et Italique * ** OU
+\item Du * ** Italique et Gras ** * OU
+\item Du *** Gras et Italique ***
+
 ## Compte rendu du projet de \gas
 
 \item Nous avons implémenté des *macros*,
