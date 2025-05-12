@@ -30,7 +30,7 @@ identifiant: n=nom { n }
 
 nom: n=NOM { n }
 
-// Corps 
+// Corps
 
 corps:
   el=separated_nonempty_list(NEWLINE, element) { el }
@@ -57,14 +57,20 @@ texte:
   | elt=list(element_de_texte) { elt }
 
 element_de_texte:
+  | c=chaine_de_caractere { c }
+  | ft=formatage_liste_mots { ft }
+  | LBRACKET t=texte RBRACKET LPAREN c=chaine_de_caractere RPAREN { Lien (t, c) }
+  | COULEUR LBRACE c=chaine_de_caractere RBRACE LBRACE t=texte RBRACE { Couleur (c, t) }
+  
+
+chaine_de_caractere:
   | m=mot { Mot m }
-  | ft=forme_texte { ft }
-  | LBRACKET ft=forme_texte RBRACKET LPAREN m=mot RPAREN { Lien (ft, m) }
-  | COULEUR LBRACE m=mot RBRACE LBRACE ft=forme_texte RBRACE { Couleur (m, ft) }
   | i=identifiant { Macro i }
 
-forme_texte:
+formatage_liste_mots:
   | GRASITALIQUE ml=liste_mots GRASITALIQUE { GrasItalique ml }
+  | GRAS ITALIQUE ml=liste_mots ITALIQUE GRAS { GrasItalique ml }
+  | ITALIQUE GRAS ml=liste_mots GRAS ITALIQUE { ItaliqueGras ml }
   | GRAS ml=liste_mots GRAS { Gras ml }
   | ITALIQUE ml=liste_mots ITALIQUE { Italique ml }
 

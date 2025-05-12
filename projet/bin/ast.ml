@@ -35,11 +35,12 @@ and texte = element_de_texte list
 
 and element_de_texte =
   | Mot of mot
+  | ItaliqueGras of liste_mots
   | GrasItalique of liste_mots
   | Italique of liste_mots
   | Gras of liste_mots
-  | Lien of element_de_texte * mot
-  | Couleur of mot * element_de_texte
+  | Lien of texte * element_de_texte
+  | Couleur of element_de_texte * texte
   | Macro of identifiant
 
 and liste_mots = mot list
@@ -87,22 +88,15 @@ and item_imbrique_string = function
 and texte_string = function
   | [] -> ""
   | [last] -> element_de_texte_string last
-  (* Si il reste 2 élements de texte, *)
-  (* il ne faut pas mettre d'espace lorsque hd1 n'est pas un 'Mot' *)
-  | hd1 :: hd2 :: [] -> 
-    (match hd1 with
-    | Mot _ -> element_de_texte_string hd1 ^ " " ^ element_de_texte_string hd2
-    | _ -> element_de_texte_string hd1 ^ element_de_texte_string hd2)
-  (* On agit normalement dans les autres cas. *)
-  | hd1 :: hd2 :: tl ->  
-    element_de_texte_string hd1 ^ " " ^ texte_string (hd2 :: tl)
+  | hd :: tl -> element_de_texte_string hd ^ " " ^ texte_string tl
 and element_de_texte_string = function
   | Mot m -> m
+  | ItaliqueGras ml -> "<em><strong>" ^ liste_mots_string ml ^ "</strong></em>"
   | GrasItalique ml -> "<strong><em>" ^ liste_mots_string ml ^ "</em></strong>"
   | Italique ml -> "<em>" ^ liste_mots_string ml ^ "</em>"
   | Gras ml -> "<strong>" ^ liste_mots_string ml ^ "</strong>"
-  | Lien (et, m) -> "<a href=\"" ^ m ^ "\">" ^ element_de_texte_string et ^ "</a>"
-  | Couleur (m, et) -> "<span style=\"color :#" ^ m ^ "\">" ^ element_de_texte_string et ^ "</span>"
+  | Lien (t, c) -> "<a href=\"" ^ element_de_texte_string c ^ "\">" ^ texte_string t ^ "</a>"
+  | Couleur (c, t) -> "<span style=\"color :#" ^ element_de_texte_string c ^ "\">" ^ texte_string t ^ "</span>"
   | Macro i -> texte_string (find macros_map i)
 and liste_mots_string = function
   | [] -> ""
