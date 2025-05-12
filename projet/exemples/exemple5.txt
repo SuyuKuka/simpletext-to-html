@@ -1,4 +1,5 @@
 \define {\gas}{Grammaires et Analyse Syntaxique}
+\define {\BleuCanard}{048B9A}
 \begindocument
 # Exemple de fichier SimpleText
 
