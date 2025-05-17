@@ -1,0 +1,5 @@
+Du texte en ** Gras ** ou en * Italique *.
+
+\item Du ** * Gras et Italique * ** OU
+\item Du * ** Italique et Gras ** * OU
+\item Du *** Gras et Italique ***

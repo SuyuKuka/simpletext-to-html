@@ -1,0 +1,40 @@
+\define {\gas}{Grammaires et Analyse Syntaxique}
+\define {\BleuCanard}{048B9A}
+\begindocument
+# Exemple de fichier SimpleText
+
+N’oubliez pas :
+dans un fichier SimpleText,
+les retours à la ligne
+sont ignorés !
+
+Pour faire un nouveau paragraphe, il faut faire un *saut* de ligne. 
+Pour mettre en forme le texte, on peut utiliser :
+
+\item du *texte en italique*,
+\item du **texte en gras**,
+\item et des [liens hypertexte](https://fr.wikipedia.org/wiki/Hyperlien).
+Du texte \color{FF0000}{en rouge} et \color{0000FF}{en bleu}.
+
+\item Un item simple.
+\item {
+    Et un item complexe.
+
+    Il contient :
+
+    \item des paragraphes,
+    \item et des sous-items.
+}
+\item Un autre item simple.
+
+Du texte en ** Gras ** ou en * Italique *.
+
+\item Du ** * Gras et Italique * ** OU
+\item Du * ** Italique et Gras ** * OU
+\item Du *** Gras et Italique ***
+
+## Compte rendu du projet de \gas
+
+\item Nous avons implémenté des *macros*,
+\item et de \color{\BleuCanard}{jolies couleurs} !
+\enddocument
