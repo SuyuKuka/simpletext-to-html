@@ -1,0 +1,11 @@
+(executable
+ (public_name projet)
+ (name main)
+ (libraries projet))
+
+(ocamllex
+ (modules lexer))
+(menhir
+  (modules parser)
+  (infer true)
+  (flags --dump --trace))

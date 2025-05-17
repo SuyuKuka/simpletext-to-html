@@ -1,0 +1,12 @@
+Du texte \color{FF0000}{en rouge} et \color{0000FF}{en bleu}.
+
+\item Un item simple.
+\item {
+    Et un item complexe.
+
+    Il contient :
+
+    \item des paragraphes,
+    \item et des sous-items.
+}
+\item Un autre item simple.
