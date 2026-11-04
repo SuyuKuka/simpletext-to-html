@@ -2,7 +2,7 @@
 
 ## About
 
-**SimpleText to HTML Parser** is an OCaml-based grammar and syntax analysis project developed as a third-year Bachelor's (L3) project at Université Paris Cité. Built using modern OCaml tooling, the project implements a complete compilation pipeline—from lexical analysis and parsing to Abstract Syntax Tree (AST) generation and HTML translation—for a custom lightweight markup language.
+**SimpleText to HTML Parser** is an OCaml-based grammar and syntax analysis project developed as a third-year Bachelor's (L3) project at Université Paris Cité. Built using modern OCaml tooling, the project implements a complete compilation pipeline—from lexical analysis and parsing to Abstract Syntax Tree (AST) generation and HTML translation—for SimpleText (a markup language inspired by Markdown/LaTeX).
 
 The project demonstrates advanced compilation concepts, leveraging **Ocamllex** for tokenization and **Menhir** for LR(1) parser generation, orchestrated via the **Dune** build system.
 
@@ -18,7 +18,7 @@ The project demonstrates advanced compilation concepts, leveraging **Ocamllex** 
 
 ## Key Features
 
-- **Custom Markup Parsing:** Converts lightweight document syntax into clean, semantic HTML output (`out.html`).
+- **Custom Markup Parsing:** Converts SimpleText document syntax into clean, semantic HTML output (`out.html`).
 - **Rich Text Formatting:** Full support for bold (`**`), italic (`*`), combined bold-italic, custom text colors (`\color`), and hyperlinks.
 - **Document Structure:** Supports Level 1 (`#`) and Level 2 (`##`) titles, paragraphs, and complex nested lists (`\item`).
 - **Macro System:** Custom macro definition and expansion support via `\define` directives.
@@ -98,6 +98,6 @@ This project was developed collaboratively as a 2-person team:
 
 This repository contains academic coursework.
 
-- The initial basecode are the intellectual property of the teaching staff. They are included here strictly for context and evaluation purposes.
+- Some part of the initial basecode are the intellectual property of the teaching staff. They are included here strictly for context and evaluation purposes.
 
 This project is shared for portfolio and reference purposes only.
